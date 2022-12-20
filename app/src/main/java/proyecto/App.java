@@ -3,6 +3,9 @@
  */
 package proyecto;
 
+import javax.naming.OperationNotSupportedException;
+import java.io.FileNotFoundException;
+
 public class App {
     public String getGreeting() {
         return "Hello World!";
