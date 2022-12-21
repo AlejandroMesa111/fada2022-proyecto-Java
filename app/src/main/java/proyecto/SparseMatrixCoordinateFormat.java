@@ -154,22 +154,17 @@ public class SparseMatrixCoordinateFormat {
         SparseMatrixCoordinateFormat squaredMatrix = new SparseMatrixCoordinateFormat();
         //Usar los metodos Set aqui de los atributos
         int[][] transposed = new int[matrix[2].length][matrix.length];
-
+        int cnt = 0;
         for(int i = 0; i < matrix.length; i++){
             for(int j = 0; j < matrix[2].length; j++){
                 transposed[j][i] = matrix[i][j];
-            }
-        }
-        squaredMatrix.setMatrix(transposed);
-
-        int cnt = 0;
-        for(int i = 0; i < transposed.length; i++){
-            for(int j = 0; j < transposed[2].length; j++){
-                if(transposed[i][j] != 0){
+                if(matrix[i][j] != 0){
                     cnt++;
                 }
             }
         }
+        squaredMatrix.setMatrix(transposed);
+
         int[] valores1 = new int[cnt];
         int[] filas1 = new int[cnt];
         int[] col1 = new int[cnt];
@@ -190,7 +185,6 @@ public class SparseMatrixCoordinateFormat {
         squaredMatrix.setColumns(col1);
 
         return squaredMatrix;
-
     }
 
 }
