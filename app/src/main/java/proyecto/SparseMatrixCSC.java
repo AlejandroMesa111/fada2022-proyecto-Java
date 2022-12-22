@@ -8,6 +8,7 @@ import javax.naming.OperationNotSupportedException;
 import lombok.Getter;
 import lombok.Setter;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 
 
 public class SparseMatrixCSC {
@@ -164,17 +165,32 @@ public class SparseMatrixCSC {
     {
         SparseMatrixCSC squaredMatrix = new SparseMatrixCSC();
         squaredMatrix.values = new int[values.length];
-        squaredMatrix.columns = new int[rows.length];
-        squaredMatrix.rows = new int[columns.length];
+        squaredMatrix.columns = new int[matrix.length+1];
+        squaredMatrix.rows = new int[rows.length];
 
-        int i = 0;
-        for (i = 0; i < values.length; i++) {
-            squaredMatrix.values[i] = values[i];
-            squaredMatrix.columns[i] = rows[i];
+        int countValues = 0;
+        for (int i = 0; i < squaredMatrix.columns.length; i++){
+            for (int j = 0; j < rows.length; j++){
+                if (rows[j] == i){
+                    squaredMatrix.columns[i+1]++;
+                    squaredMatrix.values[countValues] = values[j];
+
+                    for (int k = 0; k < columns.length; k++){
+                        if (k == columns.length || (j >= columns[k] && j < columns[k+1])){
+                            squaredMatrix.rows[countValues] = k;
+                            break;
+                        }
+                    }
+                    countValues++;
+                }
+            }
         }
-        for (i = 0; i < columns.length; i++) squaredMatrix.rows[i] = columns[i];
+        //Hacer la sumatoria de las columnas
+        for (int i = 1; i < squaredMatrix.columns.length; i++) squaredMatrix.columns[i] += squaredMatrix.columns[i-1];
+
         return squaredMatrix;
     }
 
 
 }
+
